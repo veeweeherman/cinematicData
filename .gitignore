@@ -1,3 +1,6 @@
-if search for Movie: return movie + details, with director+details, and actors+details
-if search for director: return director+details, all the director's movies and its details or links to its details, and the movie's actors and their details
-if search for Actor: return all the actor's movies and the movies details, what movies he directed if any
+node_modules
+bundle.js
+
+# if search for Movie: return movie + details, with director+details, and actors+details
+# if search for director: return director+details, all the director's movies and its details or links to its details, and the movie's actors and their details
+# if search for Actor: return all the actor's movies and the movies details, what movies he directed if any

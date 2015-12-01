@@ -1,0 +1,26 @@
+{
+  "name": "cinematicdata",
+  "version": "1.0.0",
+  "description": "A coding assignment as part of a job application.",
+  "main": "app.js",
+  "dependencies": {
+    "browserify": "^12.0.1",
+    "express": "^4.13.3",
+    "generator": "^1.0.1",
+    "node": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veeweeherman/cinematicData.git"
+  },
+  "author": "Vy Cu <vy.hoang.cu@gmail.com> (veeweeherman.github.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veeweeherman/cinematicData/issues"
+  },
+  "homepage": "https://github.com/veeweeherman/cinematicData#readme"
+}
