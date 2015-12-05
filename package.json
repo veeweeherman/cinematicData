@@ -4,9 +4,7 @@
   "description": "A coding assignment as part of a job application.",
   "main": "app.js",
   "dependencies": {
-    "browserify": "^12.0.1",
     "express": "^4.13.3",
-    "generator": "^1.0.1",
     "node": "^0.0.0"
   },
   "devDependencies": {},

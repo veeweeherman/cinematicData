@@ -31,5 +31,5 @@ app.get('/', function(req, res) {
 //========================================================//
 var server = app.listen(port, function() {
   var host = server.address().address;
-  console.log('CinematicData is listening at http://%s:%s -- %s', host, port);
+  console.log('iMDVy is listening at http://%s:%s -- %s', host, port);
 });

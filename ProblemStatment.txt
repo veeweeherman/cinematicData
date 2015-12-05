@@ -1,9 +1,28 @@
 Create an application that can visualize the given data and its relationships. The resulting application should have the following functionality:
 1) Display the List of Movies.
-2) See details (actors and directors) of a selected movie.
+  2) See details (actors and directors) of a selected movie.
 3) Display the List of Actors
-4) See details of a selected actor.
+  4) See details of a selected actor.
 5) Display the List of Directors
-6) See details of a selected director.
+  6) See details of a selected director.
 
 This application should provide basic navigation between each relationship.
+
+
+// iMDVy
+
+SPA: 3 tabs for movies, directors, actors
+  // above 3 tabs, shows entire list
+  // when click on each item in list, show details of item
+    //have tabs for the other 2 items that related to current item
+
+when clicked,
+MOVIE:
+  show details
+  tabs for: actor(s) in this movie; director of this movie
+ACTOR:
+  show details
+  tabs for: movies this actor has acted in, movies this actor has directed; directors this actor has worked with
+DIRECTOR:
+  show details
+  tabs for: movies this director has acted in, movies this director has directed; actors this director has worked with
