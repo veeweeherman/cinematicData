@@ -107,39 +107,39 @@ var GetMovies = React.createClass({
 
 });
 
-// var GetMovies = React.createClass({
-//   getInitialState: function(){
-//     return {
-//         data: []
-//     };
-//   },
-//   componentDidMount: function(){
-//     $.getJSON( "../pseudoDB/movies.json", function(data) {
-//
-//     if (this.isMounted()){
-//       this.setState({
-//         data: data
-//       });
-//     }
-//   }.bind(this));
-//
-//   },
-//
-//   render: function(){
-//
-//     return (
-//       <div>
-//         <p>GET MOVIES</p>
-//         <ul>
-//           {this.state.data.map(function(movie, i){
-//             return <li key={i}>{movie.name} {movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</li>;
-//           })}
-//         </ul>
-//       </div>
-//     );
-//   }
-//
-// });
+var GetDirectors = React.createClass({
+  getInitialState: function(){
+    return {
+        data: []
+    };
+  },
+  componentDidMount: function(){
+    $.getJSON( "../pseudoDB/directors.json", function(data) {
+
+    if (this.isMounted()){
+      this.setState({
+        data: data
+      });
+    }
+  }.bind(this));
+
+  },
+
+  render: function(){
+
+    return (
+      <div>
+        <p>GET MOVIES</p>
+        <ul>
+          {this.state.data.map(function(director, i){
+            return <li key={i}>{director.firstName} {director.lastName}, Age: {director.age} </li>;
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+});
 
 var CategoriesList = React.createClass({
   render: function(){
@@ -148,6 +148,8 @@ var CategoriesList = React.createClass({
         currentTab = <GetActors />
       } else if (this.props.categories === 'Movies'){
         currentTab = <GetMovies />
+      } else {
+        currentTab = <GetDirectors />
       }
 
       return (
