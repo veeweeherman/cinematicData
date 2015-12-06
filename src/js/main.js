@@ -63,7 +63,7 @@ var GetActors = React.createClass({
         <p>GET ACTORS</p>
         <ul>
           {this.state.data.map(function(actor, i){
-            return <li>{actor.lastName}</li>;
+            return <li key={i}>{actor.firstName} {actor.lastName}, Age: {actor.age}</li>;
           })}
         </ul>
       </div>

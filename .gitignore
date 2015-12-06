@@ -1,4 +1,5 @@
 node_modules
+dist
 
 
 # if search for Movie: return movie + details, with director+details, and actors+details
