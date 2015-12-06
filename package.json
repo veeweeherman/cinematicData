@@ -4,8 +4,12 @@
   "description": "A coding assignment as part of a job application.",
   "main": "app.js",
   "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
     "express": "^4.13.3",
-    "node": "^0.0.0"
+    "node": "^0.0.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
   },
   "devDependencies": {},
   "scripts": {
