@@ -88,15 +88,7 @@ var App = React.createClass({
     );
   }
 });
-        // <Tabs.Panel title='Actors'>
-        //   <h2>list of actors</h2>
-        // </Tabs.Panel>
-        // <Tabs.Panel title='Movies'>
-        //   <h2>list of movies</h2>
-        // </Tabs.Panel>
-        // <Tabs.Panel title='Directors'>
-        //   <h2>list of directors</h2>
-        // </Tabs.Panel>
+
 
 var CategoriesList = React.createClass({
   render: function(){
