@@ -1,5 +1,5 @@
-// var React = require('react');
-// var ReactDOM = require('react-dom');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var jqxhr = $.getJSON( "../pseudoDB/actors.json", function(data) {
 
@@ -17,7 +17,7 @@ var jqxhr = $.getJSON( "../pseudoDB/actors.json", function(data) {
 
   });
 
-module.exports = function(x){return "nscakjnckajnd"};
+module.exports = jqxhr;
 
 
 // var jqxhr2 = $.getJSON( "pseudoDB/directors.json", function(data) {
