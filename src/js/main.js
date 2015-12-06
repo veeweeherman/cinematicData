@@ -6,58 +6,6 @@ var Tabs = require('react-simpletabs');
 
 var actors = require('./data.js');
 console.log('actors??',actors);
-//
-//
-// var data = [
-//   { title: "Actors", content: "I am the content of the first tab." },
-//   { title: "Movies", content: "I am the content of the second tab." },
-//   { title: "Directors", content: "Third tab, buddy." }
-// ];
-//
-// var Tabs = React.createClass({
-//   getInitialState: function() {
-//     return {activeTab: 0};
-//   },
-//   handleClick: function(index) {
-//     this.setState({activeTab: index});
-//     return false;
-//   },
-//   render: function() {
-//     return (
-//       <div>
-//         <dl className="tabs">
-//           {this.props.data.map(function (tab, index) {
-//             var activeClass = this.state.activeTab === index ? 'active' : '';
-//
-//             return (
-//               <dd className={'tab ' + activeClass} >
-//                 <a href="#" onClick={this.handleClick.bind(this, index)}>{tab.title}</a>
-//               </dd>
-//             )
-//           }, this)}
-//         </dl>
-//         <div className="tabs-content">
-//           {this.props.data.map(function (tab, index) {
-//             var activeClass = this.state.activeTab === index ? 'active' : '';
-//
-//             return (
-//               <div className={'content ' + activeClass}>
-//                 <p>{tab.content}</p>
-//               </div>
-//             )
-//           }, this)}
-//         </div>
-//       </div>
-//     );
-//   }
-// });
-//
-// ReactDOM.render(
-//   <Tabs data={data} />,
-//   document.getElementById('tabs')
-// );
-
-
 
 
 
@@ -90,13 +38,48 @@ var App = React.createClass({
 });
 
 
+var GetActors = React.createClass({
+  getInitialState: function(){
+    return {
+        data: []
+    };
+  },
+  componentDidMount: function(){
+    $.getJSON( "../pseudoDB/actors.json", function(data) {
+    console.log('initial success!!!!!!!!!!!!!!',data);
+    if (this.isMounted()){
+      this.setState({
+        data: data
+      });
+    }
+  }.bind(this));
+
+  },
+
+  render: function(){
+    console.log('data??',this.state.data);
+    return (
+      <div>
+        <p>GET ACTORS</p>
+        <ul>
+          {this.state.data.map(function(actor, i){
+            return <li>{actor.lastName}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+});
+
 var CategoriesList = React.createClass({
   render: function(){
-    console.log('hello???', this.props.categories);
+
       return (
 
         <Tabs.Panel title={this.props.categories}>
           <h2>list list list {this.props.categories}</h2>
+          <GetActors />
         </Tabs.Panel>
       );
   }
@@ -104,6 +87,7 @@ var CategoriesList = React.createClass({
 });
 
 ReactDOM.render(<App />, document.getElementById('tabs'));
+// ReactDOM.render(<GetActors />, document.getElementById('app'));
 
 
 

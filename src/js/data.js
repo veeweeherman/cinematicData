@@ -2,19 +2,17 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var jqxhr = $.getJSON( "../pseudoDB/actors.json", function(data) {
-
-
-  console.log('initial success!!!!!!!!!!!!!!',data);
+  // console.log('initial success!!!!!!!!!!!!!!',data);
 })
   .done(function(data) {
-    console.log( "second success" );
+    // console.log( "second success" );
   })
   .fail(function(data) {
-    console.log( "error");
+    // console.log( "error");
   })
   .always(function(data) {
-    console.log( "complete");
-
+    // console.log( "complete");
+    return data;
   });
 
 module.exports = jqxhr;
