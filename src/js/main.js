@@ -11,28 +11,25 @@ var Categories = React.createClass({
   },
   render: function(){
     return (
-      <div>
-        <h3> iMDVy </h3>
-        <ShowList categoryNames={this.state.categories} />
-      </div>
-    )
+      <ul>
+        {this.state.categories.map(function(category, i){
+          return <ShowList key={i} categories={category}/>
+        })}
+      </ul>
+    );
   }
 
 });
+      // <div>
+      //   <h3> iMDVy </h3>
+      //   <ShowList categoryNames={this.state.categories} />
+      // </div>
+
 var ShowList = React.createClass({
   render: function(){
-    var listItems = this.props.categoryNames.map(function(category){
-      return <li> {category} </li>;
-    });
-    return (
-      <div>
-        <h3> Categories: </h3>
-        <ul>
-          {listItems}
-        </ul>
-      </div>
-    )
+      return <li> {this.props.categories} </li>;
   }
+
 });
 
 
