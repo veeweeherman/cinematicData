@@ -6,3 +6,8 @@ explanation of technologies
 
 
 browserify -t [ babelify --prets [ react ] ]  src/*.js -o bundle.js
+
+
+clone
+npm install
+run gulp
