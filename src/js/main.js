@@ -25,6 +25,7 @@ var App = React.createClass({
     console.log('after the tab ' + selectedIndex);
   },
   render: function() {
+
     return (
       <Tabs tabActive={1} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
 
@@ -72,14 +73,88 @@ var GetActors = React.createClass({
 
 });
 
+var GetMovies = React.createClass({
+  getInitialState: function(){
+    return {
+        data: []
+    };
+  },
+  componentDidMount: function(){
+    $.getJSON( "../pseudoDB/movies.json", function(data) {
+
+    if (this.isMounted()){
+      this.setState({
+        data: data
+      });
+    }
+  }.bind(this));
+
+  },
+
+  render: function(){
+
+    return (
+      <div>
+        <p>GET MOVIES</p>
+        <ul>
+          {this.state.data.map(function(movie, i){
+            return <li key={i}>{movie.name} {movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</li>;
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+});
+
+// var GetMovies = React.createClass({
+//   getInitialState: function(){
+//     return {
+//         data: []
+//     };
+//   },
+//   componentDidMount: function(){
+//     $.getJSON( "../pseudoDB/movies.json", function(data) {
+//
+//     if (this.isMounted()){
+//       this.setState({
+//         data: data
+//       });
+//     }
+//   }.bind(this));
+//
+//   },
+//
+//   render: function(){
+//
+//     return (
+//       <div>
+//         <p>GET MOVIES</p>
+//         <ul>
+//           {this.state.data.map(function(movie, i){
+//             return <li key={i}>{movie.name} {movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</li>;
+//           })}
+//         </ul>
+//       </div>
+//     );
+//   }
+//
+// });
+
 var CategoriesList = React.createClass({
   render: function(){
+      var currentTab;
+      if (this.props.categories === 'Actors'){
+        currentTab = <GetActors />
+      } else if (this.props.categories === 'Movies'){
+        currentTab = <GetMovies />
+      }
 
       return (
 
-        <Tabs.Panel title={this.props.categories}>
+        <Tabs.Panel title={this.props.categories} onClick={console.log(this.props.categories)}>
           <h2>list list list {this.props.categories}</h2>
-          <GetActors />
+            {currentTab}
         </Tabs.Panel>
       );
   }
