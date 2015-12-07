@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 var Tabs = require('react-simpletabs');
 
 var actors = require('./data.js');
-console.log('actors??',actors);
+
 
 
 
@@ -98,7 +98,10 @@ var GetMovies = React.createClass({
         <p>GET MOVIES</p>
         <ul>
           {this.state.data.map(function(movie, i){
-            return <li key={i}>{movie.name} {movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</li>;
+            return <div key={i}>
+            <li >{movie.name}</li>
+            <p>{movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</p>
+            </div>
           })}
         </ul>
       </div>
@@ -129,7 +132,7 @@ var GetDirectors = React.createClass({
 
     return (
       <div>
-        <p>GET MOVIES</p>
+        <p>GET DIRECTORS</p>
         <ul>
           {this.state.data.map(function(director, i){
             return <li key={i}>{director.firstName} {director.lastName}, Age: {director.age} </li>;
@@ -163,8 +166,43 @@ var CategoriesList = React.createClass({
 
 });
 
+
+var Search = React.createClass({
+    getInitialState: function() {
+        return { showResults: false };
+    },
+    onClick: function() {
+        // this.setState({ showResults: true });
+
+        if (this.state.showResults === true){
+          this.setState({showResults: false});
+        } else {
+          this.setState({showResults: true});
+}
+    },
+    render: function() {
+        return (
+            <div>
+                SEARCHBAR?
+                <input type="submit" value="Search" onClick={this.onClick} />
+                { this.state.showResults ? <Results /> : null }
+            </div>
+        );
+    }
+});
+
+var Results = React.createClass({
+    render: function() {
+        return (
+            <div id="results" className="search-results">
+                Some Results
+            </div>
+        );
+    }
+});
+
 ReactDOM.render(<App />, document.getElementById('tabs'));
-// ReactDOM.render(<GetActors />, document.getElementById('app'));
+ReactDOM.render(<Search />, document.getElementById('app'));
 
 
 
