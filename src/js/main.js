@@ -27,7 +27,7 @@ var App = React.createClass({
   render: function() {
 
     return (
-      <Tabs tabActive={1} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
+      <Tabs tabActive={2} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
 
           {this.state.categories.map(function(category,i){
             return <CategoriesList key={i} categories={category} title={category}/>;
@@ -73,10 +73,11 @@ var GetActors = React.createClass({
 
 });
 
-var GetMovies = React.createClass({
+var GetMovieNames = React.createClass({
   getInitialState: function(){
     return {
-        data: []
+        data: [],
+        status: 'off'
     };
   },
   componentDidMount: function(){
@@ -84,30 +85,43 @@ var GetMovies = React.createClass({
 
     if (this.isMounted()){
       this.setState({
-        data: data
+        data: data,
+        status: 'off'
       });
     }
   }.bind(this));
 
   },
+  // handleClick: function(e, b, c, d){
+  //   // e.preventDefault();
+  //   console.log('handling click', e, b,c,d);
+  // },
 
   render: function(){
 
+    var movies = this.state.data.map(function(movie, i){
+      return(
+        <GetMovieDetails name={movie.name} releaseYear={movie.releaseYear} key={i} rating={movie.rating} genre={movie.genre}>
+        </GetMovieDetails>
+
+      );
+    });
+    return (<div >{movies}</div>);
+  }
+/* <p>{movie.releaseYear}, Genre: {movie.genre}, Rating: {movie.rating}</p>*/
+});
+var GetMovieDetails = React.createClass({
+  handleClick: function(){
+    console.log('this props?',this.props);
+  },
+  render: function() {
+
     return (
-      <div>
-        <p>GET MOVIES</p>
-        <ul>
-          {this.state.data.map(function(movie, i){
-            return <div key={i}>
-            <li >{movie.name}</li>
-            <p>{movie.releaseYear}, Genre: {movie.genre} Rating: {movie.rating}</p>
-            </div>
-          })}
-        </ul>
+      <div onClick={this.handleClick}>
+        {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}
       </div>
     );
   }
-
 });
 
 var GetDirectors = React.createClass({
@@ -150,7 +164,7 @@ var CategoriesList = React.createClass({
       if (this.props.categories === 'Actors'){
         currentTab = <GetActors />
       } else if (this.props.categories === 'Movies'){
-        currentTab = <GetMovies />
+        currentTab = <GetMovieNames />
       } else {
         currentTab = <GetDirectors />
       }
@@ -167,42 +181,7 @@ var CategoriesList = React.createClass({
 });
 
 
-var Search = React.createClass({
-    getInitialState: function() {
-        return { showResults: false };
-    },
-    onClick: function() {
-        // this.setState({ showResults: true });
-
-        if (this.state.showResults === true){
-          this.setState({showResults: false});
-        } else {
-          this.setState({showResults: true});
-}
-    },
-    render: function() {
-        return (
-            <div>
-                SEARCHBAR?
-                <input type="submit" value="Search" onClick={this.onClick} />
-                { this.state.showResults ? <Results /> : null }
-            </div>
-        );
-    }
-});
-
-var Results = React.createClass({
-    render: function() {
-        return (
-            <div id="results" className="search-results">
-                Some Results
-            </div>
-        );
-    }
-});
-
 ReactDOM.render(<App />, document.getElementById('tabs'));
-ReactDOM.render(<Search />, document.getElementById('app'));
 
 
 
