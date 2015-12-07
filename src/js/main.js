@@ -134,17 +134,25 @@ var GetMovieDetails = React.createClass({
     var movieID = this.props.id; //returns string "00000000X"
     var matchingActorIDs = [];
     $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
-      console.log('links ');
+      console.log('links ',movieID, data);
       for (var i = 0; i < data.length; i++) {
         var currentMovieID = data[i].movieID;
         if (currentMovieID === movieID){
-          for (var i = currentMovieID.length-1; i >= 7; i--) {
-            console.log(currentMovieID[i]);
+          var actorIDindex = "";
+          for (var j = 8; j < 10; j++) {
+            actorIDindex += data[i].actorID[j];
           }
-          // matchingActorIDs.push(data[i].actorID);
-          // console.log('pushing this actor into arr',data[i].actorID);
+          matchingActorIDs.push((Number(actorIDindex)-1));
         }
       }
+      console.log('matching actors arr',matchingActorIDs);
+            $.getJSON( "../pseudoDB/actors.json", function(data) {
+              console.log('inside the actors file',data);
+              for (var i = 0; i < matchingActorIDs.length; i++) {
+                var actorsInCurrentMovie = data[matchingActorIDs[i]];
+                console.log('actorsInCurrentMovie',actorsInCurrentMovie.firstName,actorsInCurrentMovie.lastName);
+              }
+            })
     }.bind(this));
     // var movieID = this.props.id;
     // $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {

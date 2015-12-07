@@ -48,12 +48,12 @@
   float:left;
     display:inline-block;
 
-background: blue;
+/*background: blue;*/
 }
 
 #second {
   float:left;
     display:inline-block;
 
-    background: red;
+    /*background: red;*/
 }
