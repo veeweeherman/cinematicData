@@ -92,33 +92,47 @@ var GetMovieNames = React.createClass({
   }.bind(this));
 
   },
-  // handleClick: function(e, b, c, d){
-  //   // e.preventDefault();
-  //   console.log('handling click', e, b,c,d);
-  // },
 
   render: function(){
 
     var movies = this.state.data.map(function(movie, i){
       return(
-        <GetMovieDetails name={movie.name} releaseYear={movie.releaseYear} key={i} rating={movie.rating} genre={movie.genre}>
+        <GetMovieDetails name={movie.name} releaseYear={movie.releaseYear} key={i} rating={movie.rating} genre={movie.genre} id={movie.id} directorID={movie.directorID}>
         </GetMovieDetails>
 
       );
     });
     return (<div >{movies}</div>);
   }
-/* <p>{movie.releaseYear}, Genre: {movie.genre}, Rating: {movie.rating}</p>*/
+
 });
 var GetMovieDetails = React.createClass({
   handleClick: function(){
-    console.log('this props?',this.props);
+    // get this.props.directorID and concat with "//9 0's"
+    // use this stringified number to search:
+      // linkActorsToMovies.json
+        // if match ID with any "movieID" : ID, get the actorID-stringify-ID and match it against actors.json IDs
+      // directors.json
+        // if match ID with any directorsid, then return fName and lName
+    var moviesDirectorID = "000000000"+this.props.directorID;
+    console.log('this props?',typeof moviesDirectorID);
+      $.getJSON( "../pseudoDB/directors.json", function(data) {
+      // console.log('initial success! ', Array.isArray(data), data );
+      for (var i = 0; i < data.length; i++) {
+        // console.log('each directors last name ',data[i].lastName);
+        if (data[i].id === moviesDirectorID){
+          console.log('matching movie with director ',data[i].lastName);
+        }
+      }
+      }.bind(this));
+
+
   },
   render: function() {
 
     return (
       <div onClick={this.handleClick}>
-        {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}
+        {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}, id: {this.props.id}, {this.props.directorID}
       </div>
     );
   }
@@ -170,11 +184,15 @@ var CategoriesList = React.createClass({
       }
 
       return (
-
-        <Tabs.Panel title={this.props.categories} onClick={console.log(this.props.categories)}>
-          <h2>list list list {this.props.categories}</h2>
-            {currentTab}
-        </Tabs.Panel>
+        <div>
+          <div id="first">
+            <Tabs.Panel title={this.props.categories} onClick={console.log(this.props.categories)} >
+              <h2>list list list {this.props.categories}</h2>
+                {currentTab}
+            </Tabs.Panel>
+          </div>
+          <div id="second">SECOND DIV</div>
+        </div>
       );
   }
 

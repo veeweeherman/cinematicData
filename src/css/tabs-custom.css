@@ -42,4 +42,18 @@
   border-top: 2px solid #3498db;
   border-bottom: 0;
   color: #333;
-}tabs-
+}
+
+#first {
+  float:left;
+    display:inline-block;
+
+background: blue;
+}
+
+#second {
+  float:left;
+    display:inline-block;
+
+    background: red;
+}
