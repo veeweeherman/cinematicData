@@ -107,6 +107,12 @@ var GetMovieNames = React.createClass({
 
 });
 var GetMovieDetails = React.createClass({
+  getInitialState: function(){
+    return {
+      director: '',
+      actor: ''
+    }
+  },
   handleClick: function(){
     // get this.props.directorID and concat with "//9 0's"
     // use this stringified number to search:
@@ -114,37 +120,68 @@ var GetMovieDetails = React.createClass({
         // if match ID with any "movieID" : ID, get the actorID-stringify-ID and match it against actors.json IDs
       // directors.json
         // if match ID with any directorsid, then return fName and lName
-    var moviesDirectorID = '000000000'+this.props.directorID.toString();
-    // console.log(moviesDirectorID, typeof moviesDirectorID, 'string?');
-    // var getStringifiedMoviesDirectorID = function(id){
-    //   var len = id.length;
-    //   if (len === 1){
-    //     return '000000000'+id;
-    //   } else if (len === 2) {
-    //     return '00000000'+id;
-    //   }
-    // }
 
-      $.getJSON( "../pseudoDB/directors.json", function(data) {
+    // get director's last name of the movie clicked
+    var moviesDirectorIDindex = this.props.directorID-1;
+    $.getJSON( "../pseudoDB/directors.json", function(data) {
+      console.log('matching movie with director ',data[moviesDirectorIDindex].firstName,data[moviesDirectorIDindex].lastName);
+      this.setState({
+        director: data[moviesDirectorIDindex].lastName
+      });
+    }.bind(this));
 
-        if (moviesDirectorID.length === 11){
-          moviesDirectorID = moviesDirectorID.slice(1,moviesDirectorID.length);
-        
-        }
+    // get the actor(s) in the movie clicked
+    var movieID = this.props.id; //returns string "00000000X"
+    var matchingActorIDs = [];
+    $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
+      console.log('links ');
       for (var i = 0; i < data.length; i++) {
-        if (data[i].id === moviesDirectorID){
-          console.log('matching movie with director ',data[i].lastName);
+        var currentMovieID = data[i].movieID;
+        if (currentMovieID === movieID){
+          for (var i = currentMovieID.length-1; i >= 7; i--) {
+            console.log(currentMovieID[i]);
+          }
+          // matchingActorIDs.push(data[i].actorID);
+          // console.log('pushing this actor into arr',data[i].actorID);
         }
       }
-      }.bind(this));
+    }.bind(this));
+    // var movieID = this.props.id;
+    // $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
+    //   if (movieID.length === 11){
+    //     movieID = movieID.slice(1,movieID.length);
+    //   }
+    //   console.log('inside the links file');
+    //   for (var i = 0; i < data.length; i++) {
+    //     if (data[i].movieID === movieID){
+    //       console.log('actors ID in this movie ',data[i].actorID);
+    //       var currentActorID = data[i].actorID;
+    //       // this.setState({
+    //       //   actor: data[i].lastName
+    //       // });
+    //       $.getJSON( "../pseudoDB/actors.json", function(data) {
+    //         console.log('inside the actors file',data);
+    //         for (var i = 0; i < data.length; i++) {
+    //           if (data[i].id === currentActorID){
+    //             console.log('actors name in this movie ',data[i].lastName);
+    //         //     // this.setState({
+    //         //     //   actor: data[i].lastName
+    //         //     // });
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }
+    // }.bind(this));
 
 
   },
   render: function() {
 
     return (
-      <div onClick={this.handleClick}>
+      <div id="finding" onClick={this.handleClick}>
         {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}, id: {this.props.id}, {this.props.directorID}
+        <RelatedMovieDetails director={this.state.director}></RelatedMovieDetails>
       </div>
     );
   }
@@ -210,8 +247,20 @@ var CategoriesList = React.createClass({
 
 });
 
+var Test = React.createClass({
+  render: function(){
+    return (<p>TESTESTEST</p>);
+  }
+})
+
+var RelatedMovieDetails = React.createClass({
+  render: function(){
+    return (<p>{this.props.director } </p>);
+  }
+})
 
 ReactDOM.render(<App />, document.getElementById('tabs'));
+// ReactDOM.render(<Test />, document.getElementById('second'));
 
 
 
