@@ -110,7 +110,7 @@ var GetMovieDetails = React.createClass({
   getInitialState: function(){
     return {
       director: '',
-      actor: ''
+      actors: []
     }
   },
   handleClick: function(){
@@ -123,16 +123,20 @@ var GetMovieDetails = React.createClass({
 
     // get director's last name of the movie clicked
     var moviesDirectorIDindex = this.props.directorID-1;
+    var moviesdirectorName;
     $.getJSON( "../pseudoDB/directors.json", function(data) {
       console.log('matching movie with director ',data[moviesDirectorIDindex].firstName,data[moviesDirectorIDindex].lastName);
       this.setState({
-        director: data[moviesDirectorIDindex].lastName
+        director: data[moviesDirectorIDindex].lastName,
+        actor: 'ACTORS'
       });
+      // moviesdirectorName = data[moviesDirectorIDindex].lastName;
     }.bind(this));
 
     // get the actor(s) in the movie clicked
     var movieID = this.props.id; //returns string "00000000X"
     var matchingActorIDs = [];
+    var matchingActorNames = [];
     $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
       console.log('links ',movieID, data);
       for (var i = 0; i < data.length; i++) {
@@ -151,8 +155,12 @@ var GetMovieDetails = React.createClass({
               for (var i = 0; i < matchingActorIDs.length; i++) {
                 var actorsInCurrentMovie = data[matchingActorIDs[i]];
                 console.log('actorsInCurrentMovie',actorsInCurrentMovie.firstName,actorsInCurrentMovie.lastName);
+                matchingActorNames.push(actorsInCurrentMovie.lastName);
               }
+              console.log('matchingActorNames',matchingActorNames);
+
             })
+
     }.bind(this));
     // var movieID = this.props.id;
     // $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
@@ -189,7 +197,7 @@ var GetMovieDetails = React.createClass({
     return (
       <div id="finding" onClick={this.handleClick}>
         {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}, id: {this.props.id}, {this.props.directorID}
-        <RelatedMovieDetails director={this.state.director}></RelatedMovieDetails>
+        <RelatedMovieDetails director={this.state.director}  actor={this.state.actor}></RelatedMovieDetails>
       </div>
     );
   }
@@ -263,7 +271,7 @@ var Test = React.createClass({
 
 var RelatedMovieDetails = React.createClass({
   render: function(){
-    return (<p>{this.props.director } </p>);
+    return (<p>{this.props.director} ... {this.props.actor} </p>);
   }
 })
 
