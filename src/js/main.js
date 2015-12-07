@@ -114,12 +114,24 @@ var GetMovieDetails = React.createClass({
         // if match ID with any "movieID" : ID, get the actorID-stringify-ID and match it against actors.json IDs
       // directors.json
         // if match ID with any directorsid, then return fName and lName
-    var moviesDirectorID = "000000000"+this.props.directorID;
-    console.log('this props?',typeof moviesDirectorID);
+    var moviesDirectorID = '000000000'+this.props.directorID.toString();
+    // console.log(moviesDirectorID, typeof moviesDirectorID, 'string?');
+    // var getStringifiedMoviesDirectorID = function(id){
+    //   var len = id.length;
+    //   if (len === 1){
+    //     return '000000000'+id;
+    //   } else if (len === 2) {
+    //     return '00000000'+id;
+    //   }
+    // }
+
       $.getJSON( "../pseudoDB/directors.json", function(data) {
-      // console.log('initial success! ', Array.isArray(data), data );
+
+        if (moviesDirectorID.length === 11){
+          moviesDirectorID = moviesDirectorID.slice(1,moviesDirectorID.length);
+        
+        }
       for (var i = 0; i < data.length; i++) {
-        // console.log('each directors last name ',data[i].lastName);
         if (data[i].id === moviesDirectorID){
           console.log('matching movie with director ',data[i].lastName);
         }
