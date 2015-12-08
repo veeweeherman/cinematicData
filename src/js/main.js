@@ -319,7 +319,7 @@ var GetMovieDetails = React.createClass({
 
     return (
       <div id="finding" onClick={this.handleClick}>
-        {this.props.name}, {this.props.releaseYear}, {this.props.genre}, Rating: {this.props.rating}
+        {this.props.name}, {this.props.releaseYear}, {this.props.genre},, Rating: {this.props.rating}
         <RelatedMovieDetails director={this.state.director} actor={this.state.actor}></RelatedMovieDetails>
       </div>
     );
