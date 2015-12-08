@@ -14,6 +14,7 @@
     "gulp-rename": "^1.2.2",
     "node": "^0.0.0",
     "react": "^0.14.3",
+    "react-addons-update": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-simpletabs": "^0.7.0",
     "react-tabs": "^0.5.1",
