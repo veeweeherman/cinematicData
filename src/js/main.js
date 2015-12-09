@@ -30,7 +30,7 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <Tabs tabActive={3} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
+      <Tabs tabActive={2} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
 
           {this.state.categories.map(function(category,i){
             return <CategoriesList key={i} categories={category} title={category}/>;
@@ -128,7 +128,7 @@ var GetDirectorDetails = React.createClass({
   },
   //
   componentDidMount: function(){
-    var directorIDString = this.props.id; //DOESNT WORK
+    var directorIDString = this.props.id; // returns string "000000000X" or "00000000XX"
     var directorIDNumber;
     var moviesDirected = [];
 
@@ -164,9 +164,9 @@ var GetDirectorDetails = React.createClass({
     //       matchingActorIDs.push((Number(actorIDindex)-1));
     //     }
     //   }
-    //   $.getJSON( "../pseudoDB/actors.json", function(eata) {
+    //   $.getJSON( "../pseudoDB/actors.json", function(data) {
     //     for (var i = 0; i < matchingActorIDs.length; i++) {
-    //       var actorsInCurrentMovie = eata[matchingActorIDs[i]];
+    //       var actorsInCurrentMovie = data[matchingActorIDs[i]];
     //       //console.log('actorsInCurrentMovie',actorsInCurrentMovie.firstName,actorsInCurrentMovie.lastName);
     //       matchingActorNames.push(actorsInCurrentMovie.lastName);
     //     }
@@ -250,6 +250,7 @@ var GetMovies = React.createClass({
     }.bind(this));
   },
   render: function(){
+
     var movies = this.state.data.map(function(movie, i){
       return(
         <GetMovieDetails name={movie.name} releaseYear={movie.releaseYear} key={i} rating={movie.rating} genre={movie.genre} id={movie.id} directorID={movie.directorID}>
@@ -263,50 +264,46 @@ var GetMovies = React.createClass({
 var GetMovieDetails = React.createClass({
   getInitialState: function(){
     return {
-      director: [],
+      director: '',
       actor: []
     }
   },
 
   componentDidMount: function(){
-    var movieID = this.props.id; // returns string "000000000X" or "00000000XX"
-    var matchingActorIDs = [];
-    var matchingActorNames = [];
-    var moviesDirectorIDindex = this.props.directorID-1;
-    var moviesDirectorName;
 
     /***************************************
-    // get director's last name of the movie clicked
+    get director's last name of the movie:
+    using the movie object, use the movie's directorID to search through the directors array for a director object with a matching id
+    ** each movie's directorID number minus 1 is the index number of the same director in the directors.json array of directors
     ***************************************/
+    var moviesDirectorIDindex = this.props.directorID-1;
+    var moviesDirectorName;
     $.getJSON( "../pseudoDB/directors.json", function(data) {
-
       moviesDirectorName = data[moviesDirectorIDindex].lastName;
-
       this.setState(function(){
         return update(this.state,{director: {$set: moviesDirectorName}});
       })
     }.bind(this));
 
     /***************************************
-    // get the actor(s) in the movie clicked
+    get array of the actor(s) in the movie:
+    first, get array of all the id's of the actor(s) in the current movie
+
     ***************************************/
-    var thisMovie = this;
+    var movieIDString = this.props.id; // returns string "000000000X" or "00000000XX"
+    var matchingActorIDs = [];
+    var matchingActorNames = [];
+    var thisMovie = this; // keep reference to scope of the current movie while inside any child scopes
     $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
       for (var i = 0; i < data.length; i++) {
         var currentMovieID = data[i].movieID;
-        if (currentMovieID === movieID){
-          var actorIDindex = "";
-          // following function shortens the 10-digit ID # into 1-2 digit integers
-          for (var j = 8; j < 10; j++) {
-            actorIDindex += data[i].actorID[j];
-          }
-          matchingActorIDs.push((Number(actorIDindex)-1));
+        if (currentMovieID === movieIDString){
+          matchingActorIDs.push(Numberify(data[i].actorID)-1);
         }
       }
-      $.getJSON( "../pseudoDB/actors.json", function(eata) {
+      $.getJSON( "../pseudoDB/actors.json", function(data) {
         for (var i = 0; i < matchingActorIDs.length; i++) {
-          var actorsInCurrentMovie = eata[matchingActorIDs[i]];
-          //console.log('actorsInCurrentMovie',actorsInCurrentMovie.firstName,actorsInCurrentMovie.lastName);
+          var actorsInCurrentMovie = data[matchingActorIDs[i]];
           matchingActorNames.push(actorsInCurrentMovie.lastName);
         }
         thisMovie.setState(function(){
@@ -318,8 +315,8 @@ var GetMovieDetails = React.createClass({
   render: function() {
 
     return (
-      <div id="finding" onClick={this.handleClick}>
-        {this.props.name}, {this.props.releaseYear}, {this.props.genre},, Rating: {this.props.rating}
+      <div>
+        {this.props.name}, {this.props.releaseYear}, {this.props.genre}, Rating: {this.props.rating}
         <RelatedMovieDetails director={this.state.director} actor={this.state.actor}></RelatedMovieDetails>
       </div>
     );
