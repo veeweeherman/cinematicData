@@ -44,16 +44,17 @@
   color: #333;
 }
 
+/* TODO: to have the #second div on the right half of the page where the extra/relationship components could render
 #first {
   float:left;
     display:inline-block;
 
-/*background: blue;*/
+
 }
 
 #second {
   float:left;
     display:inline-block;
 
-    /*background: red;*/
-}
+
+}*/

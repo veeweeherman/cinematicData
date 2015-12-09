@@ -1,3 +1,34 @@
+var MenuList = React.createClass({
+    getInitialState: function() {
+        return {data: []}
+    },
+    componentWillMount: function() {
+        $.ajax({
+            url: 'http://10.0.0.97:8888/public-code/data/data.json',
+            dataType: 'json',
+            success: function(data) {
+                this.setState({data: data});
+            }.bind(this),
+            error: function(xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                console.log(err.Message);
+            }
+        });
+    },
+    render: function() {
+        var list = this.state.data.map(function(menuItemProps) {
+            return <MenuItem onClick={this.props.whenClicked} {...menuItemProps} key={menuItemProps.id} />
+        });
+        return (
+            <ul id="menu-list">
+                {list}
+            </ul>
+        )
+    }
+});
+
+
+
 var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment) {
