@@ -9,10 +9,10 @@ To Get Started:
 npm install
 ```
 ```
-run Gulp production
+gulp production
 ```
 ```
-run Gulp
+gulp
 ```
 
 run on localhost:3000 (either nodemon or node app.js, or any other witchcraft you prefer)
