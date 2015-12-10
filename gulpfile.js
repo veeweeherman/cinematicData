@@ -14,13 +14,17 @@ var path = {
   DEST: 'dist',
   DEST_BUILD: 'dist/build',
   DEST_SRC: 'dist/src',
-  ENTRY_POINT: ['./src/js/main.js','./src/js/data.js']
+  ENTRY_POINT: ['./src/js/main.js','./src/js/helpers.js']
 };
 
 gulp.task('copy', function(){
   gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
 });
+
+/******************************************
+DEFAULT TASKS
+******************************************/
 
 gulp.task('watch', function() {
   gulp.watch(path.HTML, ['copy']);
@@ -43,6 +47,10 @@ gulp.task('watch', function() {
     .pipe(gulp.dest(path.DEST_BUILD));
 });
 
+
+/******************************************
+PRODUCTION TASKS
+******************************************/
 gulp.task('build', function(){
   browserify({
     entries: [path.ENTRY_POINT],

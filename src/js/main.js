@@ -5,13 +5,13 @@ var ReactDOM = require('react-dom');
 var Tabs = require('react-simpletabs');
 var update = require('react-addons-update');
 
-var Numberify = require('./data.js');
+var Numberify = require('./helpers.js');
 
 
 
 /***************************************
 PARENT COMPONENT, LOGIC HERE IS FROM REACT SIMPLE TABS NPM MODULE
-SEE:
+SEE: https://github.com/pedronauck/react-simpletabs
 ***************************************/
 var App = React.createClass({
   getInitialState: function(){
@@ -30,7 +30,7 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <Tabs tabActive={2} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
+      <Tabs tabActive={3} onBeforeChange={this.onBeforeChange} onAfterChange={this.onAfterChange} onMount={this.onMount}>
 
           {this.state.categories.map(function(category,i){
             return <CategoriesList key={i} categories={category} title={category}/>;
@@ -43,6 +43,7 @@ var App = React.createClass({
 
 /***************************************
 ACTORS COMPONENTS
+TODO: create chold components for ACTORS, for ActorDetails and RelatedActorDetails
 ***************************************/
 
 var GetActors = React.createClass({
@@ -103,17 +104,6 @@ var GetDirectors = React.createClass({
       );
     });
     return (<div>{directors}</div>);
-    // return (
-    //   <div>
-    //     <p>GET DIRECTORS</p>
-    //     <ul>
-    //
-    //       {this.state.data.map(function(director, i){
-    //         return <li key={i}>{director.firstName} {director.lastName}, Age: {director.age} </li>;
-    //       })}
-    //     </ul>
-    //   </div>
-    // );
   }
 
 });
@@ -122,8 +112,8 @@ var GetDirectorDetails = React.createClass({
   getInitialState: function(){
     return {
       movieDirected: [],
-      // movieActedIn: '',
-      // actorWorkedWith: []
+      movieActedIn: [],
+      actorWorkedWith: []
     }
   },
   //
@@ -134,10 +124,13 @@ var GetDirectorDetails = React.createClass({
 
 
     /***************************************
-    get movie's name the director has directed
+    Find the movies a director has directed
+    Use the director's id (string) and Numberify it (see helper function in helpers.js)
+    Iterate through the movies json object, check if any movie's directorID matches the current director's id
+    If there is a match, get the name of that movie and store it in moviesDirected array
+    Update state
     ***************************************/
     $.getJSON( "../pseudoDB/movies.json", function(data) {
-
       directorIDNumber = Numberify(directorIDString);
       for (var i = 0; i < data.length; i++) {
         if (data[i].directorID === directorIDNumber){
@@ -150,36 +143,13 @@ var GetDirectorDetails = React.createClass({
     }.bind(this));
 
     /***************************************
-    // get the actor(s) in the movie clicked
+    Get the actor(s) that acted in the movie
+
     ***************************************/
-    // var thisMovie = this;
-    // $.getJSON( "../pseudoDB/linkActorsToMovies.json", function(data) {
-    //   for (var i = 0; i < data.length; i++) {
-    //     var currentMovieID = data[i].movieID;
-    //     if (currentMovieID === movieID){
-    //       var actorIDindex = "";
-    //       for (var j = 8; j < 10; j++) {
-    //         actorIDindex += data[i].actorID[j];
-    //       }
-    //       matchingActorIDs.push((Number(actorIDindex)-1));
-    //     }
-    //   }
-    //   $.getJSON( "../pseudoDB/actors.json", function(data) {
-    //     for (var i = 0; i < matchingActorIDs.length; i++) {
-    //       var actorsInCurrentMovie = data[matchingActorIDs[i]];
-    //       //console.log('actorsInCurrentMovie',actorsInCurrentMovie.firstName,actorsInCurrentMovie.lastName);
-    //       matchingActorNames.push(actorsInCurrentMovie.lastName);
-    //     }
-    //     thisMovie.setState(function(){
-    //       return update(thisMovie.state,{actor: {$set: matchingActorNames}});
-    //     },function(){console.log('updated state?',this.state)})
-    //   })
-    // }.bind(this));
+
   },
   render: function() {
 
-        /* director's details {this.props.name}, {this.props.releaseYear}, {this.props.rating}, {this.props.genre}, id: {this.props.id}, {this.props.directorID} */
-        // {this.props}
     return (
       <div>
         {this.props.firstName} {this.props.lastName}, Age: {this.props.age}
@@ -192,13 +162,9 @@ var GetDirectorDetails = React.createClass({
 
 var RelatedDirectorDetails = React.createClass({
   render: function(){
-    return (<p>{this.props.movieDirected} ...  </p>);
+    return (<p>{this.props.movieDirected} ...  (Other Actors this Director worked with)</p>);
   }
 })
-
-/***************************************
-^ DIRECTOR COMPONENTS
-***************************************/
 
 
 /***************************************
@@ -272,8 +238,8 @@ var GetMovieDetails = React.createClass({
   componentDidMount: function(){
 
     /***************************************
-    get director's last name of the movie:
-    using the movie object, use the movie's directorID to search through the directors array for a director object with a matching id
+    Get director's last name of the movie:
+    Using the movie object, use the movie's directorID to search through the Directors array for a director object with a matching id
     ** each movie's directorID number minus 1 is the index number of the same director in the directors.json array of directors
     ***************************************/
     var moviesDirectorIDindex = this.props.directorID-1;
@@ -286,9 +252,10 @@ var GetMovieDetails = React.createClass({
     }.bind(this));
 
     /***************************************
-    get array of the actor(s) in the movie:
-    first, get array of all the id's of the actor(s) in the current movie
-
+    Get array of the actor(s) in the movie:
+    First, get array of all the id's of the actor(s) in the current movie
+    Each actor's id is +1 of its index in the actors.json array
+    So get the name of the actor by using its id minus 1 as the index number of where its located on the actors array
     ***************************************/
     var movieIDString = this.props.id; // returns string "000000000X" or "00000000XX"
     var matchingActorIDs = [];
@@ -325,7 +292,7 @@ var GetMovieDetails = React.createClass({
 
 var RelatedMovieDetails = React.createClass({
   render: function(){
-    return (<li>Director: {this.props.director}, Starring: {this.props.actor} </li>);
+    return (<p>Director: {this.props.director}, Starring: {this.props.actor} </p>);
   }
 })
 

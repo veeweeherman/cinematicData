@@ -1,27 +1,24 @@
 A coding assignment as part of a job application.
 
-directions on how to download and install dependencies, run localhost, query etc.
 
-explanation of technologies
+##iMDVy
+Using React, Node, Gulp, Browserify to show to relationships between lists of Actors, Directors, and Movies. For right now, it's a very MVP version of what I want to accomplish, but then again I have big eyes!
 
+To Get Started:
 
-browserify -t [ babelify --prets [ react ] ]  src/*.js -o bundle.js
-
-helpful tips/thanks to:
-https://github.com/pedronauck/react-simpletabs
-http://tylermcginnis.com/reactjs-tutorial-pt-2-building-react-applications-with-gulp-and-browserify/
-
-clone
 npm install
-run gulp
+run Gulp production
+run Gulp
+run on localhost:3000 (either nodemon or node app.js, or any other witchcraft you prefer)
 
 
-TODO:
-CACHING instead of making get requests
-deployed with postgreSQL db
-exported helper functions: ajax calls
-prmoised togetehr the nested ajax calls
-more gulp tasks, use gulp-notify to notify of the jsx errors
-use either display:inline vs hidden for toggle show related details
-use iMDB (or similar) API for photos of the people and movies
-tests: jest, mocha, jasmine
+
+TODO: things I dream about at night and will finish with later :)
+-implement caching, instead of making multiple GET requests
+-deployed with postgreSQL db
+-more exported helper functions: ajax calls
+-Promisify the nested ajax calls
+-more gulp tasks, ie. use gulp-notify to notify of the jsx errors
+-use either display:inline vs hidden for toggling related details
+-use iMDB (or similar) API for photos of the actors, directors, and movies
+-tests: jest, mocha, jasmine

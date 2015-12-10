@@ -1,5 +1,3 @@
-// COPY THE TEXT HERE AND PASTE INTO YOUR SERVER.JS FILE
-
 "use strict";
 
 var express = require('express');
